@@ -5,11 +5,9 @@
 ![Banner](banner.png)
 
 [![X](https://img.shields.io/badge/@zuke-%23000000.svg?logo=X&logoColor=white)](#)
+[![Telegram](https://img.shields.io/badge/@zukegg-2CA5E0?logo=telegram&logoColor=white)](#)
 [![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js&logoColor=white)](#)
-[![ChatGPT](https://img.shields.io/badge/ChatGPT-74aa9c?logo=openai&logoColor=white)](#)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009485.svg?logo=fastapi&logoColor=white)](#)
-[![Ubuntu](https://img.shields.io/badge/Ubuntu%2020.04.6%20LTS-E95420?logo=ubuntu&logoColor=white)](#)
-[![Python](https://img.shields.io/badge/Python%203.8.10-3776AB?logo=python&logoColor=white)](#)
 [![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?logo=Cloudflare&logoColor=white)](#)
 [![Solana](https://img.shields.io/badge/Solana-9945FF?logo=solana&logoColor=fff)](#)
 [![SQLite](https://img.shields.io/badge/SQLite-%2307405e.svg?logo=sqlite&logoColor=white)](#)
