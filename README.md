@@ -2,6 +2,8 @@
 
 # Zuke.gg Frontend 🛡️
 
+![Banner](banner.png)
+
 [![X](https://img.shields.io/badge/@zuke-%23000000.svg?logo=X&logoColor=white)](#)
 [![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js&logoColor=white)](#)
 [![ChatGPT](https://img.shields.io/badge/ChatGPT-74aa9c?logo=openai&logoColor=white)](#)
