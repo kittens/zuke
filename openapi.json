@@ -1,0 +1,861 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Redirect root to docs",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Wallet Login",
+        "description": "Message to be signed: 'zuke.gg:TIME_MS'.\n    TIME_MS = Date.now(). Login will be valid for 5 minute(s).",
+        "operationId": "wallet_login_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upgrade": {
+      "get": {
+        "summary": "Upgrade Information",
+        "description": "Information for the transaction",
+        "operationId": "upgrade_information_upgrade_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpgradeInformation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Upgrade",
+        "description": "Solana Transaction ID for GET /upgrade",
+        "operationId": "upgrade_upgrade_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpgradeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpgradeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/token/{ca}": {
+      "get": {
+        "summary": "Get Token",
+        "operationId": "get_token_token__ca__get",
+        "parameters": [
+          {
+            "name": "ca",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Ca"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Token"
+                    },
+                    {
+                      "$ref": "#/components/schemas/WebSocketMessage"
+                    }
+                  ],
+                  "title": "Response Get Token Token  Ca  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DexDetails": {
+        "properties": {
+          "usd_price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usd Price"
+          },
+          "usd_price_24h_change": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usd Price 24H Change"
+          },
+          "market_cap": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market Cap"
+          },
+          "liquidity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Liquidity"
+          },
+          "holders": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Holders"
+          },
+          "volume_24h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volume 24H"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "usd_price",
+          "usd_price_24h_change",
+          "market_cap",
+          "liquidity",
+          "holders",
+          "volume_24h",
+          "updated_at"
+        ],
+        "title": "DexDetails"
+      },
+      "ExtraURLs": {
+        "properties": {
+          "ca": {
+            "type": "string",
+            "title": "Ca"
+          },
+          "bullx_url": {
+            "type": "string",
+            "title": "Bullx Url",
+            "default": "",
+            "examples": [
+              "https://bullx.io/terminal?chainId=1399811149&address=MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5"
+            ]
+          },
+          "photon_url": {
+            "type": "string",
+            "title": "Photon Url",
+            "default": "",
+            "examples": [
+              "https://photon-sol.tinyastro.io/lp/MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5"
+            ]
+          },
+          "dexscreener_url": {
+            "type": "string",
+            "title": "Dexscreener Url",
+            "default": "",
+            "examples": [
+              "https://dexscreener.com/solana/MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5"
+            ]
+          },
+          "logo_small": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logo Small",
+            "default": "",
+            "examples": [
+              "https://dd.dexscreener.com/ds-data/tokens/solana/MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5.png"
+            ]
+          },
+          "logo_large": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logo Large",
+            "default": "",
+            "examples": [
+              "https://dd.dexscreener.com/ds-data/tokens/solana/MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5.png?size=lg"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "ca"
+        ],
+        "title": "ExtraURLs"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoginRequest": {
+        "properties": {
+          "public_key": {
+            "type": "string",
+            "title": "Public Key",
+            "examples": [
+              "UN33hVgYiYukkWx14253snpwAFQatdRHmADmViWx256"
+            ]
+          },
+          "signature": {
+            "type": "string",
+            "title": "Signature",
+            "examples": [
+              "mMAraPMHswwZzJQHeZ6rpVYyX3LjVqaaGi211wpfSUhVcnL7Hw6Msocbmk4kJizWWWTsD8tawHRBfNN4SpZ3Pec"
+            ]
+          },
+          "timestamp": {
+            "type": "integer",
+            "title": "Timestamp",
+            "examples": [
+              1736968747030
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "public_key",
+          "signature",
+          "timestamp"
+        ],
+        "title": "LoginRequest"
+      },
+      "LoginResponse": {
+        "properties": {
+          "Authorization": {
+            "type": "string",
+            "title": "Authorization"
+          },
+          "is_premium": {
+            "type": "boolean",
+            "title": "Is Premium"
+          }
+        },
+        "type": "object",
+        "required": [
+          "Authorization",
+          "is_premium"
+        ],
+        "title": "LoginResponse",
+        "description": "Authorization must be set as Cookie through JS."
+      },
+      "QuotedUser": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "examples": [
+              "256"
+            ]
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "examples": [
+              "theta"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "examples": [
+              "i LOVE $mew"
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "examples": [
+              "https://pbs.twimg.com/profile_images/1876510131720269824/sReMElFC.jpg"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "display_name",
+          "text",
+          "icon"
+        ],
+        "title": "QuotedUser"
+      },
+      "Social": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type",
+            "examples": [
+              "discord",
+              "website",
+              "x",
+              "twitter",
+              "telegram"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "url"
+        ],
+        "title": "Social"
+      },
+      "Ticker": {
+        "properties": {
+          "ca": {
+            "type": "string",
+            "title": "Ca"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "ticker": {
+            "type": "string",
+            "title": "Ticker"
+          },
+          "twitter_username": {
+            "type": "string",
+            "title": "Twitter Username",
+            "examples": [
+              "mew"
+            ]
+          },
+          "match_type": {
+            "type": "string",
+            "title": "Match Type",
+            "default": "",
+            "examples": [
+              "account",
+              "ticker"
+            ]
+          },
+          "token": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Token"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "ca",
+          "name",
+          "ticker",
+          "twitter_username"
+        ],
+        "title": "Ticker"
+      },
+      "Token": {
+        "properties": {
+          "ca": {
+            "type": "string",
+            "title": "Ca",
+            "examples": [
+              "MEW1gQWJ3nEXg2qgERiKu7FAFj79PHvQVREQUzScPP5"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "examples": [
+              "cat in a dogs world"
+            ]
+          },
+          "ticker": {
+            "type": "string",
+            "title": "Ticker",
+            "examples": [
+              "MEW"
+            ]
+          },
+          "logo_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logo Url",
+            "examples": [
+              "https://bafkreidlwyr565dxtao2ipsze6bmzpszqzybz7sqi2zaet5fs7k53henju.ipfs.nftstorage.link/"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "spam_status": {
+            "type": "string",
+            "title": "Spam Status"
+          },
+          "socials": {
+            "items": {
+              "$ref": "#/components/schemas/Social"
+            },
+            "type": "array",
+            "title": "Socials"
+          },
+          "dex_details": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DexDetails"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "extra_urls": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtraURLs"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "ca",
+          "name",
+          "ticker",
+          "logo_url",
+          "description",
+          "spam_status",
+          "socials",
+          "dex_details"
+        ],
+        "title": "Token"
+      },
+      "Tweet": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "examples": [
+              "256"
+            ]
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name",
+            "examples": [
+              "theta"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "examples": [
+              "mewwing and $act all day https://t.co/G1fVBZXLNW"
+            ]
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "examples": [
+              "https://pbs.twimg.com/profile_images/1876510131720269824/sReMElFC.jpg"
+            ]
+          },
+          "image": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image",
+            "default": "",
+            "examples": [
+              "https://pbs.twimg.com/media/GhD8jxWbMAAmF_n.jpg"
+            ]
+          },
+          "link": {
+            "type": "string",
+            "title": "Link",
+            "examples": [
+              "https://twitter.com/256/status/1878278775466836226"
+            ]
+          },
+          "info": {
+            "$ref": "#/components/schemas/TweetInfo"
+          },
+          "timestamp": {
+            "type": "integer",
+            "title": "Timestamp",
+            "examples": [
+              1736971847640
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "display_name",
+          "text",
+          "icon",
+          "link",
+          "info",
+          "timestamp"
+        ],
+        "title": "Tweet"
+      },
+      "TweetInfo": {
+        "properties": {
+          "twitter_id": {
+            "type": "string",
+            "title": "Twitter Id",
+            "examples": [
+              "5787532"
+            ]
+          },
+          "is_reply": {
+            "type": "boolean",
+            "title": "Is Reply",
+            "examples": [
+              false
+            ]
+          },
+          "is_retweet": {
+            "type": "boolean",
+            "title": "Is Retweet",
+            "examples": [
+              false
+            ]
+          },
+          "is_quote": {
+            "type": "boolean",
+            "title": "Is Quote",
+            "examples": [
+              false
+            ]
+          },
+          "is_self_reply": {
+            "type": "boolean",
+            "title": "Is Self Reply",
+            "examples": [
+              false
+            ]
+          },
+          "quoted_user": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/QuotedUser"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "twitter_id",
+          "is_reply",
+          "is_retweet",
+          "is_quote",
+          "is_self_reply"
+        ],
+        "title": "TweetInfo"
+      },
+      "UpgradeInformation": {
+        "properties": {
+          "recipient_address": {
+            "type": "string",
+            "title": "Recipient Address"
+          },
+          "token_address": {
+            "type": "string",
+            "title": "Token Address"
+          },
+          "token_amount": {
+            "type": "number",
+            "title": "Token Amount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recipient_address",
+          "token_address",
+          "token_amount"
+        ],
+        "title": "UpgradeInformation"
+      },
+      "UpgradeRequest": {
+        "properties": {
+          "txid": {
+            "type": "string",
+            "title": "Txid",
+            "examples": [
+              "5t5z7R42GpYQoGc1W8M6D2evhRgnot4axUrC14U6VxsTrKYJr5FHVixf7ZzWH1fiNDdEKiTnda7xetRerbN4Pqj6"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "txid"
+        ],
+        "title": "UpgradeRequest"
+      },
+      "UpgradeResponse": {
+        "properties": {
+          "public_key": {
+            "type": "string",
+            "title": "Public Key"
+          },
+          "is_premium": {
+            "type": "boolean",
+            "title": "Is Premium"
+          }
+        },
+        "type": "object",
+        "required": [
+          "public_key",
+          "is_premium"
+        ],
+        "title": "UpgradeResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WebSocketMessage": {
+        "properties": {
+          "tweet": {
+            "$ref": "#/components/schemas/Tweet"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary",
+            "examples": [
+              "The tweet references \"mewwing\" and $ACT, accompanied by a black and white manga/anime-style illustration..."
+            ]
+          },
+          "sentiment": {
+            "type": "string",
+            "title": "Sentiment",
+            "examples": [
+              "neutral"
+            ]
+          },
+          "tickers": {
+            "items": {
+              "$ref": "#/components/schemas/Ticker"
+            },
+            "type": "array",
+            "title": "Tickers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tweet",
+          "summary",
+          "sentiment"
+        ],
+        "title": "WebSocketMessage"
+      }
+    }
+  }
+}
