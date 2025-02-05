@@ -1,6 +1,6 @@
 <div align="center">
 
-# Zuke.gg Frontend 🛡️
+# ZUKE.GG FE 🛡️
 
 ![Banner](banner.png)
 
